@@ -36,6 +36,12 @@ namespace WebbutikM
             }
         }
 
+        public override int GetHashCode()
+        {
+            System.Security.Cryptography.MD5 hash = System.Security.Cryptography.MD5.Create();
+            return GetMD5Hash(hash, String.Format("{0}/{1}/{2}/{3}", ArticleNumber, Name, Price, Category));
+        }
+
         /*
          * operators are not overriden cf. https://msdn.microsoft.com/en-us/library/bsc2ak47(v=vs.110).aspx
          */

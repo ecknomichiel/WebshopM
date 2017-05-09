@@ -20,7 +20,7 @@ namespace WebbutikM
         protected List<T> itemStorage = new List<T>();
         public int ID { get; set; }
 
-        public IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
             return itemStorage.GetEnumerator();
         }
