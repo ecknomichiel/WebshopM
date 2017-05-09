@@ -21,25 +21,51 @@ using System.Linq;
 namespace WebbutikM
 {
     //Cheated a bit and made it a collection of InventoryLines to add support for amount in stock, amount available and reservations
+    [Serializable]
     class Inventory : ItemStorage<InventoryLine>
     {
+        #region Persistency
+        public void Load()
+        { 
+            XmlSerializer xmlRead = new XmlSerializer(typeof(ShopStorage));
+            TextReader reader = new StreamReader(String.Format("WebshohpM-{0}.xml", ID));
+            ShopStorage load = (ShopStorage) xmlRead.Deserialize(reader);
+            Clear();
+            foreach (InventoryLine item in load)
+            {
+                Add(item);
+            }
+            reader.Close();
+        }
+        
+
+        public void Save()
+        {
+            XmlSerializer xmlWrite = new XmlSerializer(typeof(ShopStorage));
+            TextWriter writer = new StreamWriter(fileName);
+            xmlWrite.Serialize(writer, this);
+            writer.Close();
+        }
+        #endregion
+        #region Sorting
         public IEnumerable<InventoryLine> GetSorted(ItemSortField sort)
         {
             switch (sort)
             {
                 case ItemSortField.Name:
-                    return GetAllItems().OrderBy(item => item.Name);
+                    return itemStorage.OrderBy(item => item.Name);
                 case ItemSortField.Price:
-                    return GetAllItems().OrderBy(item => item.Price);
+                    return itemStorage.OrderBy(item => item.Price);
                 case ItemSortField.PriceAndName:
-                    return GetAllItems().OrderBy(item => item.Name).OrderBy(item => item.Price); //Gets sorted by name first, later sorted on price
+                    return itemStorage.OrderBy(item => item.Name).OrderBy(item => item.Price); //Gets sorted by name first, later sorted on price
                 case ItemSortField.PriceAndCategory:
-                    return GetAllItems().OrderBy(item => item.Price).OrderBy(item => item.Category);
+                    return itemStorage.OrderBy(item => item.Price).OrderBy(item => item.Category);
                 default:
-                    return GetAllItems().OrderBy(item => item.ArticleNumber);
+                    return itemStorage.OrderBy(item => item.ArticleNumber);
             }    
         }
-
+        #endregion
+        #region Search
         public IEnumerable<InventoryLine> SearchForPriceHigher(double aPrice)
         {
             return itemStorage.Where(item => item.Price >= aPrice);
@@ -52,12 +78,14 @@ namespace WebbutikM
 
         public IEnumerable<InventoryLine> SearchForNameAndPriceHigher(string aName, double aPrice)
         {
-            return SearchForPriceHigher(aPrice).Where(item => item.Name.Contains(aName));
+            return itemStorage.Where(item => item.Price >= aPrice)
+                              .Where(item => item.Name.Contains(aName));
         }
 
         public IEnumerable<InventoryLine> SearchForNameAndPriceLower(string aName, double aPrice)
         {
-            return SearchForPriceLower(aPrice).Where(item => item.Name.Contains(aName));
+            return itemStorage.Where(item => item.Price <= aPrice)
+                              .Where(item => item.Name.Contains(aName));
         }
 
         public IEnumerable<InventoryLine> SearchForNameOrPriceLowerInCategory(string aCategory, string aName, double aPrice)
@@ -71,6 +99,7 @@ namespace WebbutikM
             return itemStorage.Where(item => item.Category == aCategory)
                             .Where(item => item.Name.Contains(aName) || item.Price >= aPrice);
         }
+        #endregion
     }
 
     enum ItemSortField
@@ -134,7 +163,7 @@ namespace WebbutikM
     {
         private int numItems;
 
-        public int NumItems
+        public int NumItemsInStock
         {
             get { return numItems; }
             set { numItems = value; }

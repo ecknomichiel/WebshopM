@@ -7,6 +7,9 @@ namespace WebbutikM
     {
         static void Main(string[] args)
         {
+            ShopLogic shop = new ShopLogic();
+
+            Console.ReadKey();
         }
     }
 }
