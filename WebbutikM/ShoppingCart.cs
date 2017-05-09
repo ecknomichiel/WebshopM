@@ -7,9 +7,9 @@ using System.Linq;
  * o Checkout() 
  * o GetReciept() 
  * 
- * Let the user add one or multiple items to their shopping cart 
- *  Let the user view their shopping cart 
- *  Let the user checkout their shopping cart and view a receipt 
+ * o Let the user add one or multiple items to their shopping cart 
+ * o Let the user view their shopping cart 
+ * o Let the user checkout their shopping cart and view a receipt 
  */
 
 namespace WebbutikM

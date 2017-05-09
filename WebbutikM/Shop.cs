@@ -4,10 +4,12 @@ using System.Linq;
 
 namespace WebbutikM
 {
-    class Shop
+    class ShopLogic
     {
         private Inventory inventory = new Inventory();
         private ShoppingCart cart = new ShoppingCart();
+
+
         
     }
 

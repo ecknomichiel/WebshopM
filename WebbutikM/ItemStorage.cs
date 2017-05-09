@@ -15,9 +15,9 @@ using System.Linq;
  */
 namespace WebbutikM
 {
-    class ItemStorage<T>: IEnumerable<T>
+    class ItemStorage<T>: IEnumerable<T> where T: Item
     {
-        private List<T> itemStorage = new List<T>();
+        protected List<T> itemStorage = new List<T>();
         public int ID { get; set; }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
@@ -33,6 +33,21 @@ namespace WebbutikM
         public IEnumerable<T> GetAllItems()
         {
             return itemStorage;
+        }
+
+        public void Add(T itemToAdd)
+        {
+            itemStorage.Add(itemToAdd);
+        }
+
+        public void Clear()
+        {
+            itemStorage.Clear();
+        }
+
+        public void Remove(T itemToRemove)
+        {
+            itemStorage.Remove(itemToRemove);
         }
 
 
