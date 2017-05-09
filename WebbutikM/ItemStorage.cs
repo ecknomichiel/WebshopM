@@ -15,7 +15,7 @@ using System.Linq;
  */
 namespace WebbutikM
 {
-    class ItemStorage<T>: IEnumerable<T> where T: Item
+    public class ItemStorage<T>: IEnumerable<T> where T: Item
     {
         protected List<T> itemStorage = new List<T>();
         public int ID { get; set; }
@@ -27,7 +27,7 @@ namespace WebbutikM
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return itemStorage.GetEnumerator();
         }
 
         public IEnumerable<T> GetAllItems()

@@ -11,9 +11,10 @@ namespace WebbutikM
 
         public ShopLogic()
         {
-            inventory.LoadFromFile(String.Format("WebshopM-{0}.xml", inventory.ID));
+            inventory.Load();
         }
         
+        public Inventory Inventory { get { return inventory; }}
     }
 
     

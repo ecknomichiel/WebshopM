@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
+using System.IO;
 
 /* Requirements:
  * ShopStorage : ItemStorage<Item> 
@@ -22,14 +24,14 @@ namespace WebbutikM
 {
     //Cheated a bit and made it a collection of InventoryLines to add support for amount in stock, amount available and reservations
     [Serializable]
-    class Inventory : ItemStorage<InventoryLine>
+    public class Inventory : ItemStorage<InventoryLine>
     {
         #region Persistency
         public void Load()
         { 
-            XmlSerializer xmlRead = new XmlSerializer(typeof(ShopStorage));
-            TextReader reader = new StreamReader(String.Format("WebshohpM-{0}.xml", ID));
-            ShopStorage load = (ShopStorage) xmlRead.Deserialize(reader);
+            XmlSerializer xmlRead = new XmlSerializer(typeof(Inventory));
+            TextReader reader = new StreamReader(String.Format("WebshopM-{0}.xml", ID));
+            Inventory load = (Inventory) xmlRead.Deserialize(reader);
             Clear();
             foreach (InventoryLine item in load)
             {
@@ -41,8 +43,8 @@ namespace WebbutikM
 
         public void Save()
         {
-            XmlSerializer xmlWrite = new XmlSerializer(typeof(ShopStorage));
-            TextWriter writer = new StreamWriter(fileName);
+            XmlSerializer xmlWrite = new XmlSerializer(typeof(Inventory));
+            TextWriter writer = new StreamWriter(String.Format("WebshohpM-{0}.xml", ID));
             xmlWrite.Serialize(writer, this);
             writer.Close();
         }
@@ -102,7 +104,7 @@ namespace WebbutikM
         #endregion
     }
 
-    enum ItemSortField
+    public enum ItemSortField
     {
         Price,
         Name,
@@ -159,7 +161,7 @@ namespace WebbutikM
 
     }
 
-    class InventoryLine: Item
+    public class InventoryLine: Item
     {
         private int numItems;
 

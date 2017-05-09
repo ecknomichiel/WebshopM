@@ -9,6 +9,11 @@ namespace WebbutikM
         {
             ShopLogic shop = new ShopLogic();
 
+            foreach (InventoryLine line in shop.Inventory.GetSorted(ItemSortField.Name))
+            {
+                Console.WriteLine(line.ArticleNumber + line.Name);
+}
+
             Console.ReadKey();
         }
     }
