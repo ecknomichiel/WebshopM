@@ -23,9 +23,17 @@ namespace WebbutikM
 
         public void AddItem(InventoryLine inventoryItem, int aNumberToAdd)
         {
-            ShoppingCartLine shopItem = itemStorage.Single(item => item.ArticleNumber == inventoryItem.ArticleNumber);
-            if (shopItem == null)
-            {
+            ShoppingCartLine shopItem = null;
+            try 
+	        {	        
+		        shopItem = itemStorage.Single(item => item.ArticleNumber == inventoryItem.ArticleNumber);
+	        }
+	        catch (Exception)
+	        {
+                //If it is not in the list and it should be removed, just ignore
+                if (aNumberToAdd < 0)
+                    return;
+                //An exception means that the item was not in the shoppingcart previously.
                 shopItem = new ShoppingCartLine()
                 {
                     ArticleNumber = inventoryItem.ArticleNumber,
@@ -36,8 +44,20 @@ namespace WebbutikM
 
                 itemStorage.Add(shopItem);
                 shopItem.AssignInventoryItem(inventoryItem);
-            }
-            shopItem.DoReservation(1); //can throw an EOutOfStockException
+	        }
+   
+            shopItem.DoReservation(aNumberToAdd); //can throw an EOutOfStockException
+            if (shopItem.NumItems == 0)
+                itemStorage.Remove(shopItem);
+        }
+
+        public double TotalAmount()
+        {
+            double result = 0;
+            foreach (ShoppingCartLine line in itemStorage)
+                result += line.NumItems * line.Price;
+            return result;
+
         }
     }
 
@@ -57,7 +77,7 @@ namespace WebbutikM
             numItems += aNumItems;
         }
 
-        internal void AssignInventoryItem(InventoryLine aInventoryItem)
+        public void AssignInventoryItem(InventoryLine aInventoryItem)
         {
             if (inventoryItem != null && inventoryItem != aInventoryItem)
             { //remove reservations to previous item and clear amount of items
@@ -66,11 +86,24 @@ namespace WebbutikM
             }
             inventoryItem = aInventoryItem;
         }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} {2} {3}x SEK{4}= SEK{5}",
+                    ArticleNumber.ToString().PadRight(5),//1
+                    Name.PadRight(50),//2
+                    Category.PadRight(10),//3
+                    NumItems.ToString().PadRight(3),//4
+                    Price.ToString().PadRight(6),//5
+                    NumItems * Price);
+        }
+
         ~ShoppingCartLine()  // destructor
         {
             if (inventoryItem != null)
             {
                 inventoryItem.AddReservation(-numItems);
+                inventoryItem = null;
             }
         }
     }

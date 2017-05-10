@@ -27,7 +27,7 @@ namespace WebbutikM
 
         public override bool Equals(object obj)
         {
-            if (obj != null && !obj.GetType().Equals(this.GetType()))
+            if (obj != null && obj.GetType().Equals(this.GetType()))
             { 	    
                 return Equals(obj as Item);
             }

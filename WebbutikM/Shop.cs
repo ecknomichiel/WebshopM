@@ -66,6 +66,18 @@ namespace WebbutikM
         { // Shoppingcart always ordered by articlenumber
             get { return cart.OrderBy(line => line.ArticleNumber); }
         }
+
+        public IEnumerable<string> Buy()
+        {
+            yield return "Receipt";
+            foreach (ShoppingCartLine line in cart)
+            {
+                yield return line.ToString();
+            }
+            yield return String.Format("Total amount due is SEK {0}", cart.TotalAmount());
+            yield return "Payment is due within 21 days. IBAN SE79 TRIO 0786 9288 13 /Postgiro 1423-78";
+            cart.Clear();
+        }
     }
 
     

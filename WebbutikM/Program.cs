@@ -49,17 +49,36 @@ namespace WebbutikM
 
         private static void Remove(int choice)
         {
-            throw new NotImplementedException();
+            try
+            {
+                shop.AddItemToShoppingCart(choice, -1);
+            }
+            catch (Exception e)
+            {//Not interested if the item existed
+            }
         }
 
         private static void CheckOut()
         {
-            throw new NotImplementedException();
+            IEnumerable<string> kvitto = shop.Buy();
+            foreach(string line in kvitto)
+            {
+                Console.WriteLine(line);
+            }
+            Console.ReadKey();
         }
 
         private static void Add(int choice)
         {
-            throw new NotImplementedException();
+            try
+            {
+                shop.AddItemToShoppingCart(choice, 1);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.ReadKey();
+            }
         }
 
         private static void Find(int choice)
@@ -185,14 +204,7 @@ namespace WebbutikM
             foreach (ShoppingCartLine line in shop.ShoppingCartContents)
             {
                 i++;
-                Console.WriteLine("{0}) {1} {2} {3} {4}x SEK{5}= SEK{6}",
-                    i.ToString().PadRight(2),//0
-                    line.ArticleNumber.ToString().PadRight(5),//1
-                    line.Name.PadRight(30),//2
-                    line.Category.PadRight(10),//3
-                    line.NumItems.ToString().PadRight(2),//4
-                    line.Price.ToString().PadRight(6),//5
-                    line.NumItems * line.Price);//6
+                Console.WriteLine((i.ToString() + ")").PadRight(3) + line.ToString());
                 totalAmount += line.NumItems * line.Price;
             }
             if (i>0)

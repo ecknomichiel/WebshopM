@@ -78,13 +78,13 @@ namespace WebbutikM
         public IEnumerable<InventoryLine> SearchForPrice(double aPrice, bool higherThan)
         {
             return itemStorage.Where(item => (higherThan && item.Price >= aPrice)
-                                              || (!higherThan && item.Price >= aPrice));            
+                                              || (!higherThan && item.Price <= aPrice));            
         }
 
         public IEnumerable<InventoryLine> SearchForNameAndPrice(string aName, double aPrice, bool nameContains, bool higherThan)
         {
             return itemStorage.Where(item => (higherThan && item.Price >= aPrice)
-                                              || (!higherThan && item.Price >= aPrice))
+                                              || (!higherThan && item.Price <= aPrice))
                               .Where(item => (nameContains && item.Name.Contains(aName))
                                                || (!nameContains && item.Name == aName));
         }
@@ -96,15 +96,19 @@ namespace WebbutikM
                                                || (!nameContains && item.Name == aName))
                                             ||// Namn eller pris
                                             ((higherThan && item.Price >= aPrice)// Pris större än eller mindre än, beroende på higherThan
-                                              || (!higherThan && item.Price >= aPrice)));
+                                              || (!higherThan && item.Price <= aPrice)));
         }
 
         #endregion
 
         public InventoryLine GetItemByArticleNumer(int aArticleNumber)
         {
-            InventoryLine result = itemStorage.Single(item => item.ArticleNumber == aArticleNumber);
-            if (result == null)
+            InventoryLine result;
+            try
+            {
+                 result = itemStorage.Single(item => item.ArticleNumber == aArticleNumber);
+            }
+            catch (Exception)
             {
                 throw new EItemNotFound(String.Format("Item with number {0} was not found", aArticleNumber));
             }
@@ -186,7 +190,7 @@ namespace WebbutikM
         }
         public override string ToString()
         {
-            return String.Format("#{0} {1} ({2}) SEK {3} ({4})", ArticleNumber, Name, Category, Price, NumItemsInStock);
+            return String.Format("#{0} {1} ({2}) SEK {3} ({4})", ArticleNumber, Name, Category, Price, NumItemsInStock - numItemsReserved);
         }
 
         internal void AddReservation(int aNumItems)
