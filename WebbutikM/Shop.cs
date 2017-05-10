@@ -16,6 +16,12 @@ namespace WebbutikM
         }
 
         #region Search Inventory
+        public IEnumerable<InventoryLine> SearchForName(string aName, bool nameContains)
+        {
+            LastDoneQuery = inventory.SearchForName(aName, nameContains);
+            return LastDoneQuery;
+        }
+
         public IEnumerable<InventoryLine> SearchForPrice(double aPrice, bool higherThan)
         {
             LastDoneQuery = inventory.SearchForPrice(aPrice, higherThan);
@@ -30,7 +36,7 @@ namespace WebbutikM
 
         public IEnumerable<InventoryLine> SearchForNameOrPriceInCategory(string aCategory, string aName, double aPrice, bool nameContains, bool higherThan)
         {
-            LastDoneQuery = SearchForNameOrPriceInCategory(aCategory, aName, aPrice, nameContains, higherThan);
+            LastDoneQuery = inventory.SearchForNameOrPriceInCategory(aCategory, aName, aPrice, nameContains, higherThan);
             return LastDoneQuery;
         }
         #endregion

@@ -69,6 +69,12 @@ namespace WebbutikM
         }
         #endregion
         #region Search
+        public IEnumerable<InventoryLine> SearchForName(string aName, bool nameContains)
+        {
+            return itemStorage.Where(item => (nameContains && item.Name.Contains(aName))
+                                               || (!nameContains && item.Name == aName));
+        }
+
         public IEnumerable<InventoryLine> SearchForPrice(double aPrice, bool higherThan)
         {
             return itemStorage.Where(item => (higherThan && item.Price >= aPrice)
@@ -111,7 +117,8 @@ namespace WebbutikM
         Price,
         Name,
         PriceAndName,
-        PriceAndCategory
+        PriceAndCategory,
+        ArticleNumber
     }
 
     enum ItemSearchField
