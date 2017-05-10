@@ -49,6 +49,7 @@ namespace WebbutikM
             writer.Close();
         }
         #endregion
+
         #region Sorting
         public IEnumerable<InventoryLine> GetSorted(ItemSortField sort)
         {
@@ -171,7 +172,7 @@ namespace WebbutikM
             get { return numItemsInStock; }
             set { numItemsInStock = value; }
         }
-        public string ToString()
+        public override string ToString()
         {
             return String.Format("#{0} {1} ({2}) SEK {3} ({4})", ArticleNumber, Name, Category, Price, NumItemsInStock);
         }

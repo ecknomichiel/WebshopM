@@ -45,7 +45,7 @@ namespace WebbutikM
             itemStorage.Clear();
         }
 
-        public void Remove(T itemToRemove)
+        protected void Remove(T itemToRemove)
         {
             itemStorage.Remove(itemToRemove);
         }

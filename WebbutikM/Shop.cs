@@ -14,7 +14,14 @@ namespace WebbutikM
             inventory.Load();
         }
         
-        public Inventory Inventory { get { return inventory; }}
+        //public Inventory Inventory { get { return inventory; }}
+
+        public IEnumerable<InventoryLine> LastDoneQuery
+        { get; set; }
+        public IEnumerable<ShoppingCartLine> ShoppingCartContents
+        { // Shoppingcart always ordered by articlenumber
+            get { return cart.OrderBy(line => line.ArticleNumber); }
+        }
     }
 
     
