@@ -35,7 +35,7 @@ namespace WebbutikM
             return itemStorage;
         }
 
-        protected void Add(T itemToAdd)
+        public void Add(T itemToAdd) //Needs to be public in order to allow serialization
         {
             itemStorage.Add(itemToAdd);
         }

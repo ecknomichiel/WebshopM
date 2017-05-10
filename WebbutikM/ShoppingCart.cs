@@ -66,7 +66,7 @@ namespace WebbutikM
             }
             inventoryItem = aInventoryItem;
         }
-        public ~ShoppingCartLine()  // destructor
+        ~ShoppingCartLine()  // destructor
         {
             if (inventoryItem != null)
             {
