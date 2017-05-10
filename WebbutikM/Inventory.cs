@@ -103,7 +103,7 @@ namespace WebbutikM
         }
         #endregion
     }
-
+    #region Enumerations
     public enum ItemSortField
     {
         Price,
@@ -120,6 +120,7 @@ namespace WebbutikM
         NameIs,
         Category
     }
+    #endregion
 
     class StockSelector
     {
@@ -163,12 +164,16 @@ namespace WebbutikM
 
     public class InventoryLine: Item
     {
-        private int numItems;
+        private int numItemsInStock;
 
         public int NumItemsInStock
         {
-            get { return numItems; }
-            set { numItems = value; }
+            get { return numItemsInStock; }
+            set { numItemsInStock = value; }
+        }
+        public string ToString()
+        {
+            return String.Format("#{0} {1} ({2}) SEK {3} ({4})", ArticleNumber, Name, Category, Price, NumItemsInStock);
         }
     }
 }
