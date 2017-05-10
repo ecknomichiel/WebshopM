@@ -76,7 +76,12 @@ namespace WebbutikM
             }
             yield return String.Format("Total amount due is SEK {0}", cart.TotalAmount());
             yield return "Payment is due within 21 days. IBAN SE79 TRIO 0786 9288 13 /Postgiro 1423-78";
-            cart.Clear();
+            cart.MakeReservationsPermanent();
+        }
+
+        public void Save()
+        {
+            inventory.Save();
         }
     }
 

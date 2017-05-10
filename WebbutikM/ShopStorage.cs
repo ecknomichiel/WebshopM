@@ -30,7 +30,7 @@ namespace WebbutikM
         public void Load()
         { 
             XmlSerializer xmlRead = new XmlSerializer(typeof(ShopStorage));
-            TextReader reader = new StreamReader(String.Format("WebshopM-{0}.xml", ID));
+            TextReader reader = new StreamReader(GetFilename());
             ShopStorage load = (ShopStorage) xmlRead.Deserialize(reader);
             Clear();
             foreach (InventoryItem item in load)
@@ -40,11 +40,15 @@ namespace WebbutikM
             reader.Close();
         }
         
+        private string GetFilename()
+        {
+            return String.Format("WebshopM-{0}.xml", ID);
+        }
 
         public void Save()
         {
             XmlSerializer xmlWrite = new XmlSerializer(typeof(ShopStorage));
-            TextWriter writer = new StreamWriter(String.Format("WebshohpM-{0}.xml", ID));
+            TextWriter writer = new StreamWriter(GetFilename());
             xmlWrite.Serialize(writer, this);
             writer.Close();
         }
@@ -216,6 +220,12 @@ namespace WebbutikM
                 numItemsReserved += aNumItems;
             }
             
+        }
+
+        public void MakeReservationPermanent(int numItems)
+        {
+            numItemsReserved -= numItems;
+            numItemsInStock -= numItems;
         }
     }
 }

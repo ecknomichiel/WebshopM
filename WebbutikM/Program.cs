@@ -17,6 +17,8 @@ namespace WebbutikM
                 input = Console.ReadLine();
                 ExecuteAction(input);
             } while (input != "quit");
+            //Finalise shop state
+            shop.Save();
         }
 
         static void ExecuteAction(string input)

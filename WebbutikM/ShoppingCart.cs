@@ -59,6 +59,13 @@ namespace WebbutikM
             return result;
 
         }
+
+        public void MakeReservationsPermanent()
+        {
+            foreach (ShoppingCartLine item in itemStorage)
+                item.MakeReservationsPermanent();
+            itemStorage.Clear();
+        }
     }
 
     class ShoppingCartLine: Item
@@ -104,6 +111,15 @@ namespace WebbutikM
             {
                 inventoryItem.AddReservation(-numItems);
                 inventoryItem = null;
+            }
+        }
+
+        public void MakeReservationsPermanent()
+        {
+            if (inventoryItem != null)
+            {
+                inventoryItem.MakeReservationPermanent(numItems);
+                numItems = 0;
             }
         }
     }
