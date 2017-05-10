@@ -35,7 +35,7 @@ namespace WebbutikM
             return itemStorage;
         }
 
-        public void Add(T itemToAdd)
+        protected void Add(T itemToAdd)
         {
             itemStorage.Add(itemToAdd);
         }
@@ -49,7 +49,5 @@ namespace WebbutikM
         {
             itemStorage.Remove(itemToRemove);
         }
-
-
     }
 }

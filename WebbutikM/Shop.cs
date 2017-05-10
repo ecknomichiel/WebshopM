@@ -35,6 +35,25 @@ namespace WebbutikM
         }
         #endregion
 
+        public InventoryLine GetItemByArticleNumber(int aArticleNumber)
+        {
+            return inventory.GetItemByArticleNumer(aArticleNumber);
+        }
+        #region Get Sorted
+        public IEnumerable<InventoryLine> GetSorted(ItemSortField sort)
+        {
+            LastDoneQuery = inventory.GetSorted(sort);
+            return LastDoneQuery;
+        }
+        #endregion
+
+        #region Handling the shopping cart
+        public AddItemToShoppingCart(int aArticleNumber, int aNumberToAdd)
+        {
+            cart.AddItem(inventory.)
+        }
+        #endregion
+
         public IEnumerable<InventoryLine> LastDoneQuery //Used for refresching the screen
         { get; set; }
         public IEnumerable<ShoppingCartLine> ShoppingCartContents

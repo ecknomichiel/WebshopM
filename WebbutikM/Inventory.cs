@@ -94,6 +94,16 @@ namespace WebbutikM
         }
 
         #endregion
+
+        public InventoryLine GetItemByArticleNumer(int aArticleNumber)
+        {
+            InventoryLine result = itemStorage.Single(item => item.ArticleNumber == aArticleNumber);
+            if (result == null)
+            {
+                throw new EItemNotFound(String.Format("Item with number {0} was not found", aArticleNumber));
+            }
+            return result;
+        }
     }
     #region Enumerations
     public enum ItemSortField
@@ -160,6 +170,7 @@ namespace WebbutikM
     public class InventoryLine: Item
     {
         private int numItemsInStock;
+        private int numItemsReserved;
 
         public int NumItemsInStock
         {
@@ -169,6 +180,19 @@ namespace WebbutikM
         public override string ToString()
         {
             return String.Format("#{0} {1} ({2}) SEK {3} ({4})", ArticleNumber, Name, Category, Price, NumItemsInStock);
+        }
+
+        internal void AddReservation(int aNumItems)
+        {
+            if (aNumItems > (numItemsInStock - numItemsReserved))
+            {
+                throw new EOutOfStock(String.Format("There is insufficient stock ({0}) of article {1} in order to buy {2} items", (numItemsInStock - numItemsReserved), ArticleNumber, aNumItems));
+            }
+            else
+            {
+                numItemsReserved += aNumItems;
+            }
+            
         }
     }
 }
