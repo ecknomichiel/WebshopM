@@ -18,22 +18,27 @@ namespace WebbutikM
     {
         public void AddItem(InventoryLine inventoryItem)
         {
+            AddItem(inventoryItem, 1);
+        }
+
+        public void AddItem(InventoryLine inventoryItem, int aNumberToAdd)
+        {
             ShoppingCartLine shopItem = itemStorage.Single(item => item.ArticleNumber == inventoryItem.ArticleNumber);
             if (shopItem == null)
             {
-                shopItem = new ShoppingCartLine() 
-                    { ArticleNumber = inventoryItem.ArticleNumber, 
-                        Category = inventoryItem.Category, 
-                        Price = inventoryItem.Price, 
-                        Name = inventoryItem.Name};
+                shopItem = new ShoppingCartLine()
+                {
+                    ArticleNumber = inventoryItem.ArticleNumber,
+                    Category = inventoryItem.Category,
+                    Price = inventoryItem.Price,
+                    Name = inventoryItem.Name
+                };
 
                 itemStorage.Add(shopItem);
                 shopItem.AssignInventoryItem(inventoryItem);
             }
             shopItem.DoReservation(1); //can throw an EOutOfStockException
         }
-
-
     }
 
     class ShoppingCartLine: Item

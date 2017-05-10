@@ -48,9 +48,9 @@ namespace WebbutikM
         #endregion
 
         #region Handling the shopping cart
-        public AddItemToShoppingCart(int aArticleNumber, int aNumberToAdd)
+        public void AddItemToShoppingCart(int aArticleNumber, int aNumberToAdd)
         {
-            cart.AddItem(inventory.)
+            cart.AddItem(inventory.GetItemByArticleNumer(aArticleNumber), aNumberToAdd);
         }
         #endregion
 
