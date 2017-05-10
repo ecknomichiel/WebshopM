@@ -69,39 +69,30 @@ namespace WebbutikM
         }
         #endregion
         #region Search
-        public IEnumerable<InventoryLine> SearchForPriceHigher(double aPrice)
+        public IEnumerable<InventoryLine> SearchForPrice(double aPrice, bool higherThan)
         {
-            return itemStorage.Where(item => item.Price >= aPrice);
+            return itemStorage.Where(item => (higherThan && item.Price >= aPrice)
+                                              || (!higherThan && item.Price >= aPrice));            
         }
 
-        public IEnumerable<InventoryLine> SearchForPriceLower(double aPrice)
+        public IEnumerable<InventoryLine> SearchForNameAndPrice(string aName, double aPrice, bool nameContains, bool higherThan)
         {
-            return itemStorage.Where(item => item.Price <= aPrice);
+            return itemStorage.Where(item => (higherThan && item.Price >= aPrice)
+                                              || (!higherThan && item.Price >= aPrice))
+                              .Where(item => (nameContains && item.Name.Contains(aName))
+                                               || (!nameContains && item.Name == aName));
         }
 
-        public IEnumerable<InventoryLine> SearchForNameAndPriceHigher(string aName, double aPrice)
+        public IEnumerable<InventoryLine> SearchForNameOrPriceInCategory(string aCategory, string aName, double aPrice, bool nameContains, bool higherThan)
         {
-            return itemStorage.Where(item => item.Price >= aPrice)
-                              .Where(item => item.Name.Contains(aName));
+            return itemStorage.Where(item => item.Category == aCategory)//Category
+                            .Where(item => ((nameContains && item.Name.Contains(aName)) //Namn contains eller är lika med, beroende på nameContains
+                                               || (!nameContains && item.Name == aName))
+                                            ||// Namn eller pris
+                                            ((higherThan && item.Price >= aPrice)// Pris större än eller mindre än, beroende på higherThan
+                                              || (!higherThan && item.Price >= aPrice)));
         }
 
-        public IEnumerable<InventoryLine> SearchForNameAndPriceLower(string aName, double aPrice)
-        {
-            return itemStorage.Where(item => item.Price <= aPrice)
-                              .Where(item => item.Name.Contains(aName));
-        }
-
-        public IEnumerable<InventoryLine> SearchForNameOrPriceLowerInCategory(string aCategory, string aName, double aPrice)
-        {
-            return itemStorage.Where(item => item.Category == aCategory)
-                            .Where(item => item.Name.Contains(aName) || item.Price <= aPrice);
-        }
-
-        public IEnumerable<InventoryLine> SearchForNameOrPriceHigherInCategory(string aCategory, string aName, double aPrice)
-        {
-            return itemStorage.Where(item => item.Category == aCategory)
-                            .Where(item => item.Name.Contains(aName) || item.Price >= aPrice);
-        }
         #endregion
     }
     #region Enumerations
@@ -123,6 +114,8 @@ namespace WebbutikM
     }
     #endregion
 
+    #region Selector
+    // Jag har för nuläget bestämt mig att inte använda den här, men löser det med tre olika functioner i Inventory klassen
     class StockSelector
     {
         private Dictionary<ItemSearchField, string> arguments = new Dictionary<ItemSearchField, string>();
@@ -162,6 +155,7 @@ namespace WebbutikM
         }
 
     }
+#endregion
 
     public class InventoryLine: Item
     {

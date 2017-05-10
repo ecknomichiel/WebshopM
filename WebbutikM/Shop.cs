@@ -11,12 +11,31 @@ namespace WebbutikM
 
         public ShopLogic()
         {
+            inventory.ID = 1;
             inventory.Load();
         }
-        
-        //public Inventory Inventory { get { return inventory; }}
 
-        public IEnumerable<InventoryLine> LastDoneQuery
+        #region Search Inventory
+        public IEnumerable<InventoryLine> SearchForPrice(double aPrice, bool higherThan)
+        {
+            LastDoneQuery = inventory.SearchForPrice(aPrice, higherThan);
+            return LastDoneQuery;
+        }
+
+        public IEnumerable<InventoryLine> SearchForNameAndPrice(string aName, double aPrice, bool nameContains, bool higherThan)
+        {
+            LastDoneQuery = inventory.SearchForNameAndPrice(aName, aPrice, nameContains, higherThan);
+            return LastDoneQuery;
+        }
+
+        public IEnumerable<InventoryLine> SearchForNameOrPriceInCategory(string aCategory, string aName, double aPrice, bool nameContains, bool higherThan)
+        {
+            LastDoneQuery = SearchForNameOrPriceInCategory(aCategory, aName, aPrice, nameContains, higherThan);
+            return LastDoneQuery;
+        }
+        #endregion
+
+        public IEnumerable<InventoryLine> LastDoneQuery //Used for refresching the screen
         { get; set; }
         public IEnumerable<ShoppingCartLine> ShoppingCartContents
         { // Shoppingcart always ordered by articlenumber
