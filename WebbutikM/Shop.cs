@@ -6,7 +6,7 @@ namespace WebbutikM
 {
     class ShopLogic
     {
-        private Inventory inventory = new Inventory();
+        private ShopStorage inventory = new ShopStorage();
         private ShoppingCart cart = new ShoppingCart();
 
         public ShopLogic()
@@ -16,37 +16,37 @@ namespace WebbutikM
         }
 
         #region Search Inventory
-        public IEnumerable<InventoryLine> SearchForName(string aName, bool nameContains)
+        public IEnumerable<InventoryItem> SearchForName(string aName, bool nameContains)
         {
             LastDoneQuery = inventory.SearchForName(aName, nameContains);
             return LastDoneQuery;
         }
 
-        public IEnumerable<InventoryLine> SearchForPrice(double aPrice, bool higherThan)
+        public IEnumerable<InventoryItem> SearchForPrice(double aPrice, bool higherThan)
         {
             LastDoneQuery = inventory.SearchForPrice(aPrice, higherThan);
             return LastDoneQuery;
         }
 
-        public IEnumerable<InventoryLine> SearchForNameAndPrice(string aName, double aPrice, bool nameContains, bool higherThan)
+        public IEnumerable<InventoryItem> SearchForNameAndPrice(string aName, double aPrice, bool nameContains, bool higherThan)
         {
             LastDoneQuery = inventory.SearchForNameAndPrice(aName, aPrice, nameContains, higherThan);
             return LastDoneQuery;
         }
 
-        public IEnumerable<InventoryLine> SearchForNameOrPriceInCategory(string aCategory, string aName, double aPrice, bool nameContains, bool higherThan)
+        public IEnumerable<InventoryItem> SearchForNameOrPriceInCategory(string aCategory, string aName, double aPrice, bool nameContains, bool higherThan)
         {
             LastDoneQuery = inventory.SearchForNameOrPriceInCategory(aCategory, aName, aPrice, nameContains, higherThan);
             return LastDoneQuery;
         }
         #endregion
 
-        public InventoryLine GetItemByArticleNumber(int aArticleNumber)
+        public InventoryItem GetItemByArticleNumber(int aArticleNumber)
         {
             return inventory.GetItemByArticleNumer(aArticleNumber);
         }
         #region Get Sorted
-        public IEnumerable<InventoryLine> GetSorted(ItemSortField sort)
+        public IEnumerable<InventoryItem> GetSorted(ItemSortField sort)
         {
             LastDoneQuery = inventory.GetSorted(sort);
             return LastDoneQuery;
@@ -60,7 +60,7 @@ namespace WebbutikM
         }
         #endregion
 
-        public IEnumerable<InventoryLine> LastDoneQuery //Used for refresching the screen
+        public IEnumerable<InventoryItem> LastDoneQuery //Used for refresching the screen
         { get; set; }
         public IEnumerable<ShoppingCartLine> ShoppingCartContents
         { // Shoppingcart always ordered by articlenumber

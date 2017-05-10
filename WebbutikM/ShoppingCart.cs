@@ -16,12 +16,12 @@ namespace WebbutikM
 {
     class ShoppingCart: ItemStorage<ShoppingCartLine>
     {
-        public void AddItem(InventoryLine inventoryItem)
+        public void AddItem(InventoryItem inventoryItem)
         {
             AddItem(inventoryItem, 1);
         }
 
-        public void AddItem(InventoryLine inventoryItem, int aNumberToAdd)
+        public void AddItem(InventoryItem inventoryItem, int aNumberToAdd)
         {
             ShoppingCartLine shopItem = null;
             try 
@@ -64,7 +64,7 @@ namespace WebbutikM
     class ShoppingCartLine: Item
     {
         private int numItems = 0;
-        private InventoryLine inventoryItem;
+        private InventoryItem inventoryItem;
 
         public int NumItems
         {
@@ -77,7 +77,7 @@ namespace WebbutikM
             numItems += aNumItems;
         }
 
-        public void AssignInventoryItem(InventoryLine aInventoryItem)
+        public void AssignInventoryItem(InventoryItem aInventoryItem)
         {
             if (inventoryItem != null && inventoryItem != aInventoryItem)
             { //remove reservations to previous item and clear amount of items

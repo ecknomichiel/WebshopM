@@ -192,7 +192,7 @@ namespace WebbutikM
         static void ShowSelection()
         {
             Console.WriteLine("Stock");
-            foreach (InventoryLine item in shop.LastDoneQuery)
+            foreach (InventoryItem item in shop.LastDoneQuery)
                 Console.WriteLine(item);
         }
         static void ShowShopingCart()

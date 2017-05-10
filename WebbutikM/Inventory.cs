@@ -24,16 +24,16 @@ namespace WebbutikM
 {
     //Cheated a bit and made it a collection of InventoryLines to add support for amount in stock, amount available and reservations
     [Serializable]
-    public class Inventory : ItemStorage<InventoryLine>
+    public class ShopStorage : ItemStorage<InventoryItem>
     {
         #region Persistency
         public void Load()
         { 
-            XmlSerializer xmlRead = new XmlSerializer(typeof(Inventory));
+            XmlSerializer xmlRead = new XmlSerializer(typeof(ShopStorage));
             TextReader reader = new StreamReader(String.Format("WebshopM-{0}.xml", ID));
-            Inventory load = (Inventory) xmlRead.Deserialize(reader);
+            ShopStorage load = (ShopStorage) xmlRead.Deserialize(reader);
             Clear();
-            foreach (InventoryLine item in load)
+            foreach (InventoryItem item in load)
             {
                 Add(item);
             }
@@ -43,7 +43,7 @@ namespace WebbutikM
 
         public void Save()
         {
-            XmlSerializer xmlWrite = new XmlSerializer(typeof(Inventory));
+            XmlSerializer xmlWrite = new XmlSerializer(typeof(ShopStorage));
             TextWriter writer = new StreamWriter(String.Format("WebshohpM-{0}.xml", ID));
             xmlWrite.Serialize(writer, this);
             writer.Close();
@@ -51,7 +51,7 @@ namespace WebbutikM
         #endregion
 
         #region Sorting
-        public IEnumerable<InventoryLine> GetSorted(ItemSortField sort)
+        public IEnumerable<InventoryItem> GetSorted(ItemSortField sort)
         {
             switch (sort)
             {
@@ -62,26 +62,43 @@ namespace WebbutikM
                 case ItemSortField.PriceAndName:
                     return itemStorage.OrderBy(item => item.Name).OrderBy(item => item.Price); //Gets sorted by name first, later sorted on price
                 case ItemSortField.PriceAndCategory:
-                    return itemStorage.OrderBy(item => item.Price).OrderBy(item => item.Category);
+                    return GroupedBy();
+                    
+                                   
+                    //return 
+                        //itemStorage.OrderBy(item => item.Price).OrderBy(item => item.Category);
+                    
                 default:
                     return itemStorage.OrderBy(item => item.ArticleNumber);
             }    
         }
+
+        private IEnumerable<InventoryItem> GroupedBy()
+        {
+            var grouped = from item in itemStorage
+                          group item by item.Category;
+            foreach (var group in grouped)
+            {
+                group.OrderBy(item => item.Price);
+                foreach (InventoryItem item in group)
+                    yield return item;
+            }
+        }
         #endregion
         #region Search
-        public IEnumerable<InventoryLine> SearchForName(string aName, bool nameContains)
+        public IEnumerable<InventoryItem> SearchForName(string aName, bool nameContains)
         {
             return itemStorage.Where(item => (nameContains && item.Name.Contains(aName))
                                                || (!nameContains && item.Name == aName));
         }
 
-        public IEnumerable<InventoryLine> SearchForPrice(double aPrice, bool higherThan)
+        public IEnumerable<InventoryItem> SearchForPrice(double aPrice, bool higherThan)
         {
             return itemStorage.Where(item => (higherThan && item.Price >= aPrice)
                                               || (!higherThan && item.Price <= aPrice));            
         }
 
-        public IEnumerable<InventoryLine> SearchForNameAndPrice(string aName, double aPrice, bool nameContains, bool higherThan)
+        public IEnumerable<InventoryItem> SearchForNameAndPrice(string aName, double aPrice, bool nameContains, bool higherThan)
         {
             return itemStorage.Where(item => (higherThan && item.Price >= aPrice)
                                               || (!higherThan && item.Price <= aPrice))
@@ -89,7 +106,7 @@ namespace WebbutikM
                                                || (!nameContains && item.Name == aName));
         }
 
-        public IEnumerable<InventoryLine> SearchForNameOrPriceInCategory(string aCategory, string aName, double aPrice, bool nameContains, bool higherThan)
+        public IEnumerable<InventoryItem> SearchForNameOrPriceInCategory(string aCategory, string aName, double aPrice, bool nameContains, bool higherThan)
         {
             return itemStorage.Where(item => item.Category == aCategory)//Category
                             .Where(item => ((nameContains && item.Name.Contains(aName)) //Namn contains eller är lika med, beroende på nameContains
@@ -101,9 +118,9 @@ namespace WebbutikM
 
         #endregion
 
-        public InventoryLine GetItemByArticleNumer(int aArticleNumber)
+        public InventoryItem GetItemByArticleNumer(int aArticleNumber)
         {
-            InventoryLine result;
+            InventoryItem result;
             try
             {
                  result = itemStorage.Single(item => item.ArticleNumber == aArticleNumber);
@@ -145,9 +162,9 @@ namespace WebbutikM
         {
             arguments.Add(aField, aValue);
         }
-        public IEnumerable<InventoryLine> Search(IEnumerable<InventoryLine> allItems)
+        public IEnumerable<InventoryItem> Search(IEnumerable<InventoryItem> allItems)
         {
-            IEnumerable<InventoryLine> result = allItems;
+            IEnumerable<InventoryItem> result = allItems;
             string value;
             foreach (ItemSearchField key in arguments.Keys)
             {
@@ -178,7 +195,7 @@ namespace WebbutikM
     }
 #endregion
 
-    public class InventoryLine: Item
+    public class InventoryItem: Item
     {
         private int numItemsInStock;
         private int numItemsReserved;
