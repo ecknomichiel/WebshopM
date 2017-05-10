@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfInventoryLine xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <InventoryLine>
+<ArrayOfInventoryItem xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <InventoryItem>
     <ArticleNumber>1001</ArticleNumber>
     <Name>Harry Potter and the Philosophers stone</Name>
     <Category>Böcker</Category>
     <Price>59</Price>
-    <NumItemsInStock>50</NumItemsInStock>
-  </InventoryLine>
-  <InventoryLine>
+    <NumItemsInStock>150</NumItemsInStock>
+  </InventoryItem>
+  <InventoryItem>
     <ArticleNumber>1002</ArticleNumber>
     <Name>Harry Potter and the chamber of secrets</Name>
     <Category>Böcker</Category>
     <Price>60</Price>
-    <NumItemsInStock>50</NumItemsInStock>
-  </InventoryLine>
-  <InventoryLine>
+    <NumItemsInStock>150</NumItemsInStock>
+  </InventoryItem>
+  <InventoryItem>
     <ArticleNumber>1003</ArticleNumber>
     <Name>Harry Potter and the goblet of Fire</Name>
     <Category>Böcker</Category>
     <Price>69</Price>
-    <NumItemsInStock>50</NumItemsInStock>
-  </InventoryLine>
-  <InventoryLine>
+    <NumItemsInStock>150</NumItemsInStock>
+  </InventoryItem>
+  <InventoryItem>
     <ArticleNumber>1004</ArticleNumber>
     <Name>Harry Potter and the cursed child</Name>
     <Category>Böcker</Category>
     <Price>99</Price>
-    <NumItemsInStock>50</NumItemsInStock>
-  </InventoryLine>
-  <InventoryLine>
+    <NumItemsInStock>150</NumItemsInStock>
+  </InventoryItem>
+  <InventoryItem>
     <ArticleNumber>2001</ArticleNumber>
     <Name>Flyga drake</Name>
     <Category>Film</Category>
     <Price>49</Price>
-    <NumItemsInStock>50</NumItemsInStock>
-  </InventoryLine>
-  <InventoryLine>
+    <NumItemsInStock>150</NumItemsInStock>
+  </InventoryItem>
+  <InventoryItem>
     <ArticleNumber>2002</ArticleNumber>
     <Name>Out of time</Name>
     <Category>Film</Category>
     <Price>49</Price>
-    <NumItemsInStock>50</NumItemsInStock>
-  </InventoryLine>
-  <InventoryLine>
+    <NumItemsInStock>150</NumItemsInStock>
+  </InventoryItem>
+  <InventoryItem>
     <ArticleNumber>2003</ArticleNumber>
     <Name>Kingsman: The Secret Service</Name>
     <Category>Film</Category>
     <Price>49</Price>
-    <NumItemsInStock>50</NumItemsInStock>
-  </InventoryLine>
-  <InventoryLine>
+    <NumItemsInStock>150</NumItemsInStock>
+  </InventoryItem>
+  <InventoryItem>
     <ArticleNumber>3001</ArticleNumber>
     <Name>Modelmaker 2017 .NET edition</Name>
     <Category>Mjukvara</Category>
     <Price>59</Price>
-    <NumItemsInStock>50</NumItemsInStock>
-  </InventoryLine>
-</ArrayOfInventoryLine>
+    <NumItemsInStock>150</NumItemsInStock>
+  </InventoryItem>
+</ArrayOfInventoryItem>
