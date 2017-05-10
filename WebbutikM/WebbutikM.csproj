@@ -41,13 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EOutOfStockException.cs" />
-    <Compile Include="Inventory.cs" />
+    <Compile Include="InventoryExceptions.cs" />
+    <Compile Include="ShopStorage.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="ItemStorage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shop.cs" />
+    <Compile Include="ShopLogic.cs" />
     <Compile Include="ShoppingCart.cs" />
   </ItemGroup>
   <ItemGroup>

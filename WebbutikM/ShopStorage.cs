@@ -62,12 +62,7 @@ namespace WebbutikM
                 case ItemSortField.PriceAndName:
                     return itemStorage.OrderBy(item => item.Name).OrderBy(item => item.Price); //Gets sorted by name first, later sorted on price
                 case ItemSortField.PriceAndCategory:
-                    return GroupedBy();
-                    
-                                   
-                    //return 
-                        //itemStorage.OrderBy(item => item.Price).OrderBy(item => item.Category);
-                    
+                    return GroupedBy();                  
                 default:
                     return itemStorage.OrderBy(item => item.ArticleNumber);
             }    
